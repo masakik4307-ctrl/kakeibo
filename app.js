@@ -8,7 +8,7 @@ function toggleDate(date){
         openDate = date;
     }
 
-    render();
+    
 }
 
 function getCategoryIcon(category){
@@ -57,7 +57,7 @@ function save(){
         JSON.stringify(transactions)
     );
 
-    render();
+    renderAccountList();
     renderCalendar();
     renderCategoryChart();
 }
@@ -317,7 +317,7 @@ window.onload = function(){
         "transactionDate"
     ).value = today;
 
-    render();
+    renderAccountList();
     renderCalendar();
     renderDayTransactions();
     renderCategoryChart();
@@ -594,4 +594,119 @@ function renderCategoryChart(){
             }
         }
     });
+}
+
+function renderAccountList(){
+
+    const accountList =
+        document.getElementById(
+            "accountList"
+        );
+
+    const accountSelect =
+        document.getElementById(
+            "accountSelect"
+        );
+
+    accountList.innerHTML = "";
+    accountSelect.innerHTML = "";
+
+    let total = 0;
+
+    accounts.forEach(account => {
+
+        total += account.balance;
+
+        accountList.innerHTML += `
+    <div class="account">
+
+        <strong>
+            ${account.name}
+        </strong>
+
+        <div>
+            ¥${account.balance.toLocaleString()}
+        </div>
+
+        <button
+            onclick="editAccount(${account.id})">
+            編集
+        </button>
+
+        <button
+            onclick="deleteAccount(${account.id})">
+            削除
+        </button>
+
+    </div>
+    `;
+
+        accountSelect.innerHTML += `
+        <option value="${account.id}">
+            ${account.name}
+        </option>
+        `;
+    });
+
+    document.getElementById(
+        "totalAssets"
+    ).textContent =
+        `総資産: ¥${total.toLocaleString()}`;
+}
+
+function editAccount(id){
+
+    const account =
+        accounts.find(
+            a => a.id === id
+        );
+
+    if(!account){
+        return;
+    }
+
+    const newName =
+        prompt(
+            "口座名",
+            account.name
+        );
+
+    if(!newName){
+        return;
+    }
+
+    const newBalance =
+        Number(
+            prompt(
+                "残高",
+                account.balance
+            )
+        );
+
+    if(isNaN(newBalance)){
+        return;
+    }
+
+    account.name = newName;
+    account.balance = newBalance;
+
+    save();
+}
+
+function deleteAccount(id){
+
+    if(
+        !confirm(
+            "この口座を削除しますか？"
+        )
+    ){
+        return;
+    }
+
+    accounts =
+        accounts.filter(
+            a => a.id !== id
+        );
+
+    save();
 }
