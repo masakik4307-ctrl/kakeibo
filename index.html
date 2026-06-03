@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1></h1>
+
+<p id="totalAssets">総資産: ¥0</p>
+
+<div class="card">
+
+    <div class="card-title">
+        取引登録
+    </div>
+
+    <!-- 今の取引登録フォーム -->
+
+</div>
+
+<select id="transactionType">
+    <option value="expense">支出</option>
+    <option value="income">収入</option>
+</select>
+
+<input
+    id="transactionDate"
+    type="date">
+
+<input
+    id="amount"
+    type="number"
+    placeholder="金額">
+
+<select
+    id="category"
+    onchange="categoryChanged()">
+
+    <option value="外食費">🍜 外食費</option>
+    <option value="交通費">🚃 交通費</option>
+    <option value="チケ代">🎫 チケ代</option>
+    <option value="チェキ">📸 チェキ</option>
+    <option value="旅行">✈️ 旅行</option>
+    <option value="航空部">🛩️ 航空部</option>
+    <option value="その他">📦 その他</option>
+    <option value="給料">💰 給料</option>
+
+</select>
+
+<select id="accountSelect"></select>
+
+<button onclick="addTransaction()">
+登録
+</button>
+
+<h2>カレンダー</h2>
+<div class="calendar-header">
+
+    <button onclick="changeMonth(-1)">
+        ◀
+    </button>
+
+    <h2 id="calendarTitle"></h2>
+
+    <button onclick="changeMonth(1)">
+        ▶
+    </button>
+
+</div>
+
+<div id="calendar"></div>
+
+<h2 id="selectedDateTitle"></h2>
+
+<div id="dayTransactions"></div>
+
+<h2>カテゴリ別支出</h2>
+
+<canvas id="categoryChart"></canvas>
+
+<div id="history"></div>
+
+<h2>口座管理</h2>
+
+<button
+    class="toggle-btn"
+    onclick="toggleAccountManager()">
+    ▼ 口座管理を開く
+</button>
+
+<div
+    id="accountManager"
+    style="display:none;">
+
+    <div id="accountList"></div>
+
+    <h3>口座追加</h3>
+
+    <input
+        id="accountName"
+        placeholder="口座名">
+
+    <input
+        id="accountBalance"
+        type="number"
+        placeholder="初期残高">
+
+    <button onclick="addAccount()">
+        追加
+    </button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
